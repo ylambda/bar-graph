@@ -15,21 +15,16 @@ fn main() {
 fn parse_input(input: String) -> Vec<i32> {
     let numbers: Vec<i32> = input
         .split_whitespace()
-        .map(|s| s.parse().unwrap())
+        .map(|s| s.parse().ok().expect("Invalid data set"))
         .collect();
 
     numbers
 }
 
 fn render(data: &Vec<i32>) {
-    let mut height = 0;
-
-    // Find tallest stack
-    for num in data {
-        if *num > height {
-            height = *num;
-        }
-    }
+    let mut height = data
+        .iter()
+        .fold(0, |x, &num| if num > x {num} else {x});
 
     while height > -1 {
         let line = data.iter()
